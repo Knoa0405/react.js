@@ -1,16 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-function User({ user, onRemove, onToggle }) {
+const User = React.memo(function ({ user, onRemove, onToggle }) {
     const { username, email, id, active } = user;
-    useEffect(() => {
-        console.log('컴포넌트가 mount/설정됨(설정 이후)');
-        console.log(user);
-        return () => {
-            console.log('컴포넌트 바뀌기 전/unmount');
-            console.log(user);
-        } 
-    },[user])
-
     return (
         <div>
             <b style=
@@ -26,10 +17,9 @@ function User({ user, onRemove, onToggle }) {
         </div>
     )
 
-}
+});
 
 function UserList({users, onRemove, onToggle}) {
-
 
     return (
         <div>
@@ -49,4 +39,4 @@ function UserList({users, onRemove, onToggle}) {
     );
 }
 
-export default UserList;
+export default React.memo(UserList);
