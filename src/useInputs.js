@@ -7,9 +7,13 @@ function reducer(state, action) {
                 {...state, [action.name] : action.value}
             )
         case "RESET" :
-                return (
-                    { ...state = action.initialForm }
-                )
+                // return (
+                //     { ...state = action.initialForm }
+                // )
+                return Object.keys(state).reduce((acc, current) => {
+                    acc[current] = '';
+                    return acc;
+                }, {});
         default :
             throw(new Error("defaultError"))
     }
@@ -17,7 +21,7 @@ function reducer(state, action) {
 
 function useInputs(initialForm) {
     // const [form, setForm] =useState(initialForm);
-    const [state, dispatch] = useReducer(reducer, initialForm);
+    const [form, dispatch] = useReducer(reducer, initialForm);
     const onChange = useCallback(e => {
         const { name, value } = e.target;
         // setForm(form => ({...form, [name] : value }));
@@ -26,14 +30,13 @@ function useInputs(initialForm) {
             name,
             value,
         })
-    }, [dispatch]);
+    }, []);
     // const reset = useCallback(() => setForm(initialForm), [initialForm]);
     const reset = useCallback(() => dispatch({
         type : "RESET",
-        initialForm,
-    }),[dispatch,initialForm])
+    }),[])
 
-    return [state, onChange, reset];
+    return [form, onChange, reset];
 };
 
 export default useInputs;
